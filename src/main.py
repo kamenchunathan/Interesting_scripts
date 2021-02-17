@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 from typing import Callable
 
 from bitarray import bitarray
@@ -10,6 +11,7 @@ from kivy.graphics.context_instructions import Color
 from kivy.graphics.vertex_instructions import Rectangle, Line
 from kivy.properties import NumericProperty
 from kivy.uix.widget import Widget
+
 # ################################################################
 #                         Game constants
 # ################################################################
@@ -28,12 +30,17 @@ class State:
     in a dense configuration (bit array) with live cells stored as 1 and dead cells stored as 0
     """
 
-    def __init__(self, size):
+    def __init__(self, size, file=''):
         self.size = size
         self._data = bitarray(self.size ** 2)
-        self._data.setall(False)
 
-    def __getitem__(self, *key: tuple):
+        if file:
+            with open(file, 'rb') as f:
+                self._data.fromfile(f, self.size)
+        else:
+            self._data.setall(False)
+
+    def __getitem__(self, key: tuple):
         return self._data[key[0] * self.size + key[1]]
 
     def __setitem__(self, key: tuple, value: bool):
@@ -46,34 +53,35 @@ class State:
 
     def total_alive_neighbours(self, x, y) -> int:
         live_neighbours = 0
+        max_index = self.size - 1
         if x > 0 and y > 0:
             if self[x - 1, y - 1]:
                 live_neighbours += 1
         if y > 0:
             if self[x, y - 1]:
                 live_neighbours += 1
-        if x < self.size and y > 0:
+        if x < max_index and y > 0:
             if self[x + 1, y - 1]:
                 live_neighbours += 1
         if x > 0:
             if self[x - 1, y]:
                 live_neighbours += 1
-        if x < self.size:
+        if x < max_index:
             if self[x + 1, y]:
                 live_neighbours += 1
-        if x > 0 and y < self.size:
+        if x > 0 and y < max_index:
             if self[x - 1, y + 1]:
                 live_neighbours += 1
-        if y < self.size:
+        if y < max_index:
             if self[x, y + 1]:
                 live_neighbours += 1
-        if x < self.size and y < self.size:
+        if x < max_index and y < max_index:
             if self[x + 1, y + 1]:
                 live_neighbours += 1
 
         return live_neighbours
 
-    def apply_rule_set(self, rule_set: Callable[[int], bool]) -> State:
+    def apply_rule_set(self, rule_set: Callable[[int, bool], bool]) -> State:
         """
         Applies a set of rules that transforms the state and returns the new state
 
@@ -84,18 +92,44 @@ class State:
         next_state = State(self.size)
         for i in range(self.size):
             for j in range(self.size):
-                next_state[i, j] = rule_set(self.total_alive_neighbours(i, j))
+                next_state[i, j] = rule_set(self.total_alive_neighbours(i, j), self[i, j])
         return next_state
 
 
+#   Specification for Conoway's game of life
+#       1. Any live cell with fewer than two live neighbors dies, as if caused by under population.
+#       2. Any live cell with two or three live neighbors lives on to the next generation.
+#       3. Any live cell with more than three live neighbors dies, as if by overpopulation.
+#       4. Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
+def default_rules(number_of_neighbours: int, current_state: bool) -> bool:
+    if number_of_neighbours > 3:
+        return False
+    if number_of_neighbours == 3:
+        return True
+    if number_of_neighbours < 2:
+        return False
+    return current_state
+
+
 class World(Widget):
-    def __init__(self, world_size, **kwargs):
+    previous_state: State
+    current_state: State
+
+    def __init__(self, world_size, state: State = None, **kwargs):
         super().__init__(**kwargs)
+
         self.world_size = world_size
+        self.current_state = state if state is not None else State(self.world_size)
+        self.previous_state = None
 
-        self.render()
+    def evolve_next_generation(self):
+        if self.current_state is not None:
+            self.previous_state = self.current_state
+            self.current_state = self.previous_state.apply_rule_set(default_rules)
+        else:
+            self.current_state = State(self.world_size)
 
-    def render(self, *args, **kwargs):
+    def render(self):
         """
         Renders the world according to its current state using the widget canvas
         :return: None
@@ -106,7 +140,11 @@ class World(Widget):
                     cell_coord = i * self.cell_size[0], j * self.cell_size[1]
 
                     # Draw cell
-                    Color(1, 1, 1)
+                    if self.current_state[i, j]:
+                        print(i, j)
+                        Color(0, 0, 0)
+                    else:
+                        Color(1, 1, 1)
                     Rectangle(size=self.cell_size, pos=(cell_coord[0], cell_coord[1]))
 
                     # Draw the cell border
@@ -139,7 +177,7 @@ class GameOfLife(App):
     # the world is square.
     # This might be change later to support world sizes of different length and width dimensions
     world_size = NumericProperty(DEFAULT_WORLD_SIZE)
-    time_step = NumericProperty(2)
+    time_step = NumericProperty(0.5)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -149,8 +187,18 @@ class GameOfLife(App):
         self.world = World(self.world_size)
         return self.world
 
+    def setup(self):
+        initial_state = State(self.world_size, os.path.join(os.path.dirname(__file__), os.path.join('initial_config', 'config1')))
+        self.world.current_state = initial_state
+        self.world.render()
+
+    def update(self, *args):
+        self.world.evolve_next_generation()
+        self.world.render()
+
     def on_start(self):
-        Clock.schedule_interval(self.world.render, self.time_step)
+        self.setup()
+        Clock.schedule_interval(self.update, self.time_step)
 
 
 if __name__ == '__main__':
