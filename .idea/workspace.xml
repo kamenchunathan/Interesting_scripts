@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="49f641eb-b3e1-4749-bbcc-f4f7ad25df3a" name="Default Changelist" comment="" />
+    <list default="true" id="49f641eb-b3e1-4749-bbcc-f4f7ad25df3a" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,8 +23,39 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="add_unversioned_files" value="$PROJECT_DIR$/venv/lib/python3.8/site-packages/kivy/app.py" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+  </component>
+  <component name="RunManager">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="game-of-life" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.main" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -36,6 +70,9 @@
       <workItem from="1613546543844" duration="372000" />
       <workItem from="1613547623178" duration="412000" />
       <workItem from="1613548106253" duration="1711000" />
+      <workItem from="1613551855689" duration="190000" />
+      <workItem from="1613552058793" duration="4580000" />
+      <workItem from="1613557051153" duration="2405000" />
     </task>
     <servers />
   </component>
@@ -43,9 +80,44 @@
     <option name="version" value="2" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="0" y="30" width="1366" height="733" key="SettingsEditor" timestamp="1613548390264">
+    <state width="1366" height="196" key="GridCell.Tab.0.bottom" timestamp="1613559126467">
       <screen x="0" y="30" width="1366" height="738" />
     </state>
-    <state x="0" y="30" width="1366" height="733" key="SettingsEditor/0.30.1366.738@0.30.1366.738" timestamp="1613548390264" />
+    <state width="1366" height="196" key="GridCell.Tab.0.bottom/0.30.1366.738@0.30.1366.738" timestamp="1613559126467" />
+    <state width="1366" height="196" key="GridCell.Tab.0.center" timestamp="1613559126464">
+      <screen x="0" y="30" width="1366" height="738" />
+    </state>
+    <state width="1366" height="196" key="GridCell.Tab.0.center/0.30.1366.738@0.30.1366.738" timestamp="1613559126464" />
+    <state width="1366" height="196" key="GridCell.Tab.0.left" timestamp="1613559126462">
+      <screen x="0" y="30" width="1366" height="738" />
+    </state>
+    <state width="1366" height="196" key="GridCell.Tab.0.left/0.30.1366.738@0.30.1366.738" timestamp="1613559126462" />
+    <state width="1366" height="196" key="GridCell.Tab.0.right" timestamp="1613559126465">
+      <screen x="0" y="30" width="1366" height="738" />
+    </state>
+    <state width="1366" height="196" key="GridCell.Tab.0.right/0.30.1366.738@0.30.1366.738" timestamp="1613559126465" />
+    <state width="1366" height="279" key="GridCell.Tab.1.bottom" timestamp="1613556848943">
+      <screen x="0" y="30" width="1366" height="738" />
+    </state>
+    <state width="1366" height="279" key="GridCell.Tab.1.bottom/0.30.1366.738@0.30.1366.738" timestamp="1613556848943" />
+    <state width="1366" height="279" key="GridCell.Tab.1.center" timestamp="1613556848830">
+      <screen x="0" y="30" width="1366" height="738" />
+    </state>
+    <state width="1366" height="279" key="GridCell.Tab.1.center/0.30.1366.738@0.30.1366.738" timestamp="1613556848830" />
+    <state width="1366" height="279" key="GridCell.Tab.1.left" timestamp="1613556848748">
+      <screen x="0" y="30" width="1366" height="738" />
+    </state>
+    <state width="1366" height="279" key="GridCell.Tab.1.left/0.30.1366.738@0.30.1366.738" timestamp="1613556848748" />
+    <state width="1366" height="279" key="GridCell.Tab.1.right" timestamp="1613556848907">
+      <screen x="0" y="30" width="1366" height="738" />
+    </state>
+    <state width="1366" height="279" key="GridCell.Tab.1.right/0.30.1366.738@0.30.1366.738" timestamp="1613556848907" />
+    <state x="0" y="30" width="1366" height="733" key="SettingsEditor" timestamp="1613552720047">
+      <screen x="0" y="30" width="1366" height="738" />
+    </state>
+    <state x="0" y="30" width="1366" height="733" key="SettingsEditor/0.30.1366.738@0.30.1366.738" timestamp="1613552720047" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/game_of_life$main.coverage" NAME="main Coverage Results" MODIFIED="1613559106162" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
   </component>
 </project>
