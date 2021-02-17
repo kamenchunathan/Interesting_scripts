@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="49f641eb-b3e1-4749-bbcc-f4f7ad25df3a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
-    </list>
+    <list default="true" id="49f641eb-b3e1-4749-bbcc-f4f7ad25df3a" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -39,7 +35,7 @@
       <updated>1613546541352</updated>
       <workItem from="1613546543844" duration="372000" />
       <workItem from="1613547623178" duration="412000" />
-      <workItem from="1613548106253" duration="1277000" />
+      <workItem from="1613548106253" duration="1711000" />
     </task>
     <servers />
   </component>
