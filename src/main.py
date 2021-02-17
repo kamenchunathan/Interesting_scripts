@@ -9,10 +9,10 @@ from kivy.core.window import Window
 from kivy.graphics.context_instructions import Color
 from kivy.graphics.vertex_instructions import Rectangle, Line
 from kivy.properties import NumericProperty
+from kivy.uix.widget import Widget
 # ################################################################
 #                         Game constants
 # ################################################################
-from kivy.uix.widget import Widget
 
 DEFAULT_WORLD_SIZE = 40
 MAX_WORLD_SIZE = 100  # TODO: Calculate as a function of the limits of the hardware
