@@ -1,10 +1,14 @@
+from __future__ import annotations
+
+from typing import Callable
+
+from bitarray import bitarray
 from kivy.app import App
 from kivy.clock import Clock
 from kivy.core.window import Window
 from kivy.graphics.context_instructions import Color
 from kivy.graphics.vertex_instructions import Rectangle, Line
 from kivy.properties import NumericProperty
-
 # ################################################################
 #                         Game constants
 # ################################################################
@@ -17,6 +21,72 @@ MAX_WORLD_SIZE = 100  # TODO: Calculate as a function of the limits of the hardw
 # ################################################################
 #                       Game Logic and rendering
 # ################################################################
+
+class State:
+    """
+    Container class that will store the state of all the cells in the world at a given instance
+    in a dense configuration (bit array) with live cells stored as 1 and dead cells stored as 0
+    """
+
+    def __init__(self, size):
+        self.size = size
+        self._data = bitarray(self.size ** 2)
+        self._data.setall(False)
+
+    def __getitem__(self, *key: tuple):
+        return self._data[key[0] * self.size + key[1]]
+
+    def __setitem__(self, key: tuple, value: bool):
+        self._data[key[0] * self.size + key[1]] = value
+
+    def __iter__(self):
+        for i in range(self.size):
+            for j in range(self.size):
+                yield self[i, j]
+
+    def total_alive_neighbours(self, x, y) -> int:
+        live_neighbours = 0
+        if x > 0 and y > 0:
+            if self[x - 1, y - 1]:
+                live_neighbours += 1
+        if y > 0:
+            if self[x, y - 1]:
+                live_neighbours += 1
+        if x < self.size and y > 0:
+            if self[x + 1, y - 1]:
+                live_neighbours += 1
+        if x > 0:
+            if self[x - 1, y]:
+                live_neighbours += 1
+        if x < self.size:
+            if self[x + 1, y]:
+                live_neighbours += 1
+        if x > 0 and y < self.size:
+            if self[x - 1, y + 1]:
+                live_neighbours += 1
+        if y < self.size:
+            if self[x, y + 1]:
+                live_neighbours += 1
+        if x < self.size and y < self.size:
+            if self[x + 1, y + 1]:
+                live_neighbours += 1
+
+        return live_neighbours
+
+    def apply_rule_set(self, rule_set: Callable[[int], bool]) -> State:
+        """
+        Applies a set of rules that transforms the state and returns the new state
+
+        :param self:
+        :param rule_set: an array of functions that is called for every cell in the
+        :return: a new state that is the product of the application of the provided rule set
+        """
+        next_state = State(self.size)
+        for i in range(self.size):
+            for j in range(self.size):
+                next_state[i, j] = rule_set(self.total_alive_neighbours(i, j))
+        return next_state
+
 
 class World(Widget):
     def __init__(self, world_size, **kwargs):
