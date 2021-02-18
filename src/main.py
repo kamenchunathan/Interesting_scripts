@@ -52,6 +52,11 @@ class State:
                 yield self[i, j]
 
     def total_alive_neighbours(self, x, y) -> int:
+        """
+        Convenience method for getting the total number of live cells adjacent to a cell
+        where x and y are the coordinates of the cell
+        :return:
+        """
         live_neighbours = 0
         max_index = self.size - 1
         if x > 0 and y > 0:
@@ -123,6 +128,18 @@ class World(Widget):
         self.current_state = state if state is not None else State(self.world_size)
         self.previous_state = None
 
+    def setup(self):
+        initial_state = State(
+            self.world_size,
+            os.path.join(os.path.dirname(__file__), os.path.join('initial_config', 'config1'))
+        )
+        self.current_state = initial_state
+        self.render()
+
+    def update(self, *args):
+        self.evolve_next_generation()
+        self.render()
+
     def evolve_next_generation(self):
         if self.current_state is not None:
             self.previous_state = self.current_state
@@ -190,20 +207,9 @@ class GameOfLife(App):
         self.world = World(self.world_size)
         return self.world
 
-    def setup(self):
-        initial_state = State(self.world_size,
-                              os.path.join(os.path.dirname(__file__), os.path.join('initial_config', 'config1'))
-                              )
-        self.world.current_state = initial_state
-        self.world.render()
-
-    def update(self, *args):
-        self.world.evolve_next_generation()
-        self.world.render()
-
     def on_start(self):
-        self.setup()
-        Clock.schedule_interval(self.update, self.time_step)
+        self.world.setup()
+        Clock.schedule_interval(self.world.update, self.time_step)
 
 
 if __name__ == '__main__':
