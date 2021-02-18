@@ -16,7 +16,7 @@ from kivy.uix.widget import Widget
 #                         Game constants
 # ################################################################
 
-DEFAULT_WORLD_SIZE = 10
+DEFAULT_WORLD_SIZE = 30
 MAX_WORLD_SIZE = 100  # TODO: Calculate as a function of the limits of the hardware
 
 
@@ -137,6 +137,7 @@ class World(Widget):
         Renders the world according to its current state using the widget canvas
         :return: None
         """
+        self.canvas.clear()  # important without clearing the canvas memory usage leads to crash
         with self.canvas:
             for i in range(self.world_size):  # horizontal axis
                 for j in range(self.world_size):  # vertical axis
@@ -190,7 +191,9 @@ class GameOfLife(App):
         return self.world
 
     def setup(self):
-        initial_state = State(self.world_size, os.path.join(os.path.dirname(__file__), os.path.join('initial_config', 'config1')))
+        initial_state = State(self.world_size,
+                              os.path.join(os.path.dirname(__file__), os.path.join('initial_config', 'config1'))
+                              )
         self.world.current_state = initial_state
         self.world.render()
 
