@@ -16,7 +16,7 @@ from kivy.uix.widget import Widget
 #                         Game constants
 # ################################################################
 
-DEFAULT_WORLD_SIZE = 40
+DEFAULT_WORLD_SIZE = 10
 MAX_WORLD_SIZE = 100  # TODO: Calculate as a function of the limits of the hardware
 
 
@@ -81,15 +81,16 @@ class State:
 
         return live_neighbours
 
-    def apply_rule_set(self, rule_set: Callable[[int, bool], bool]) -> State:
+    def apply_rule_set(self, rule_set: Callable[[int, bool], bool], inplace_state: State = None) -> State:
         """
         Applies a set of rules that transforms the state and returns the new state
 
+        :param inplace_state: a state to edit inplace and prevent memory wastage
         :param self:
         :param rule_set: an array of functions that is called for every cell in the
         :return: a new state that is the product of the application of the provided rule set
         """
-        next_state = State(self.size)
+        next_state = inplace_state if inplace_state is not None else State(self.size)
         for i in range(self.size):
             for j in range(self.size):
                 next_state[i, j] = rule_set(self.total_alive_neighbours(i, j), self[i, j])
@@ -125,7 +126,9 @@ class World(Widget):
     def evolve_next_generation(self):
         if self.current_state is not None:
             self.previous_state = self.current_state
-            self.current_state = self.previous_state.apply_rule_set(default_rules)
+            # optimization, pass in the current state to be written to inplace instead of creating a new state
+            # to prevent runaway memory allocation and wastage
+            self.current_state = self.previous_state.apply_rule_set(default_rules, self.current_state)
         else:
             self.current_state = State(self.world_size)
 
@@ -141,7 +144,6 @@ class World(Widget):
 
                     # Draw cell
                     if self.current_state[i, j]:
-                        print(i, j)
                         Color(0, 0, 0)
                     else:
                         Color(1, 1, 1)
